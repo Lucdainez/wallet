@@ -1,63 +1,50 @@
 import React from 'react';
-import { createMemoryHistory } from 'history';
-import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
-import { applyMiddleware, createStore } from 'redux';
+import { createMemoryHistory } from 'history';
 import { render } from '@testing-library/react';
+
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from '../../redux/reducers';
 
-function withRouter(component, history) {
-  return (
-    <Router history={ history }>
-      { component }
-    </Router>
-  );
-}
-
-function withRedux(component, store) {
-  return (
-    <Provider store={ store }>
-      { component }
-    </Provider>
-  );
-}
-
-export function renderWithRouter(
-  component,
+const renderWithRouterAndRedux = (
+  component, // componente a ser renderizado
   {
-    initialPath = '/',
-    history = createMemoryHistory({ initialEntries: [initialPath] }),
+    // estado inicial para o nosso reducer
+    initialState = {},
+
+    // caso você passe uma store por parâmetro ela será utilizada
+    // caso contrário vai chamar a função createStore e criar uma nova
+    store = createStore(rootReducer, initialState, applyMiddleware(thunk)),
+
+    // rota inicial da nossa aplicação
+    initialEntries = ['/'],
+
+    // caso você passe um history por parâmetro ele será utilizado
+    // caso contrário vai chamar a função createMemotryHistory e criar um novo
+    history = createMemoryHistory({ initialEntries }),
   } = {},
-) {
-  return {
-    ...render(withRouter(component, history)),
-    history,
-  };
-}
+) => ({ // arrow function que retorna um objeto
 
-export function renderWithRedux(component, options = {}) {
-  const {
-    initialState,
-    store = initialState
-      ? createStore(rootReducer, initialState, applyMiddleware(thunk))
-      : createStore(rootReducer, applyMiddleware(thunk)),
-  } = options;
+  // spread do retorno do render { getByTestId, getByRole, etc }
+  ...render(
+    <Router history={ history }>
+      <Provider store={ store }>
+        {component}
+      </Provider>
+    </Router>,
+  ),
 
-  return {
-    ...render(withRedux(component, store)),
-    store,
-  };
-}
+  // history usado acima
+  history,
 
-export function renderWithRouterAndRedux(component, options = {}) {
-  const {
-    initialPath = '/',
-    history = createMemoryHistory({ initialEntries: [initialPath] }),
-  } = options;
+  // store usada acima
+  store,
+});
 
-  return {
-    ...renderWithRedux(withRouter(component, history), options),
-    history,
-  };
-}
+// resultado dessa função:
+// renderiza o componente no teste
+// retorna um objeto contendo { store, history, getByTestId, getByRole, etc }
+
+export default renderWithRouterAndRedux;
