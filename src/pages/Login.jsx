@@ -36,6 +36,7 @@ class Login extends React.Component {
     const { email, password, enableButton } = this.state;
     return (
       <section>
+        <h2>TrybeWallet</h2>
         <form>
           <label htmlFor="email">
             Email:
