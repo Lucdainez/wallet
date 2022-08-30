@@ -1,42 +1,99 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { fetchApiCoinsAction } from '../redux/actions/index';
+import { string } from 'prop-types';
+import {
+  fetchApiCoinsAction,
+  addDataInputs,
+  addSumValue,
+} from '../redux/actions/index';
+
+const ENDPOINT = 'https://economia.awesomeapi.com.br/json/all';
 
 class WalletForm extends Component {
+  state = {
+    value: '',
+    description: '',
+    currency: 'USD',
+    method: 'Dinheiro',
+    tag: 'Alimentação',
+    exchangeRates: {},
+  };
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchApiCoinsAction());
   }
 
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+  };
+
+  dispatchActionClick = async () => {
+    const { dispatch } = this.props;
+    const { value, currency } = this.state;
+    const response = await fetch(ENDPOINT);
+    const json = await response.json();
+    delete json.USDT;
+    const ask = Object.values(json).filter((coin) => coin.code === currency);
+    dispatch(addSumValue([(Number(value) * Number(ask[0].ask)).toFixed(2)]));
+    this.setState({ exchangeRates: json }, () => {
+      dispatch(addDataInputs(this.state));
+      this.setState({
+        value: '',
+        description: '',
+        currency: 'USD',
+        method: 'Dinheiro',
+        tag: 'Alimentação',
+        exchangeRates: {},
+      });
+    });
+  };
+
   render() {
     const { coins } = this.props;
+    const {
+      value,
+      description,
+      currency,
+      method,
+      tag,
+    } = this.state;
     return (
       <form>
-        <label htmlFor="valueExpense">
+        <label htmlFor="value">
           valor da despesa:
           {' '}
           <input
             type="number"
-            name="valueExpense"
+            name="value"
+            value={ value }
             data-testid="value-input"
+            onChange={ this.handleChange }
           />
         </label>
 
-        <label htmlFor="descriptionExpense">
+        <label htmlFor="description">
           descrição:
           {' '}
           <input
             type="text"
-            name="descriptionExpense"
+            name="description"
+            value={ description }
             data-testid="description-input"
+            onChange={ this.handleChange }
           />
         </label>
 
-        <label htmlFor="coin">
+        <label htmlFor="currency">
           moeda:
           {' '}
-          <select name="coin" data-testid="currency-input">
+          <select
+            name="currency"
+            value={ currency }
+            data-testid="currency-input"
+            onChange={ this.handleChange }
+          >
             {
               coins.map((coin, index) => (
                 <option
@@ -53,7 +110,12 @@ class WalletForm extends Component {
         <label htmlFor="method">
           pagamento:
           {' '}
-          <select name="method" data-testid="method-input">
+          <select
+            name="method"
+            value={ method }
+            data-testid="method-input"
+            onChange={ this.handleChange }
+          >
             <option value="Dinheiro">Dinheiro</option>
             <option value="Cartão de crédito">Cartão de crédito</option>
             <option value="Cartão de débito">Cartão de débito</option>
@@ -63,7 +125,12 @@ class WalletForm extends Component {
         <label htmlFor="tag">
           despesa:
           {' '}
-          <select name="tag" data-testid="tag-input">
+          <select
+            name="tag"
+            value={ tag }
+            data-testid="tag-input"
+            onChange={ this.handleChange }
+          >
             <option value="Alimentação">Alimentação</option>
             <option value="Lazer">Lazer</option>
             <option value="Trabalho">Trabalho</option>
@@ -71,18 +138,24 @@ class WalletForm extends Component {
             <option value="Saúde">Saúde</option>
           </select>
         </label>
+
+        <button
+          type="button"
+          onClick={ this.dispatchActionClick }
+        >
+          Adicionar despesa
+        </button>
       </form>
     );
   }
 }
 
 WalletForm.propTypes = {
-  coins: PropTypes.arrayOf(
-    PropTypes.string.isRequired,
-  ).isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
+  coins: string,
+}.isRequired;
 
-const mapStateToProps = (state) => ({ coins: state.wallet.currencies });
+const mapStateToProps = (state) => ({
+  coins: state.wallet.currencies,
+});
 
 export default connect(mapStateToProps)(WalletForm);
