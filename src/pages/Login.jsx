@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { string } from 'prop-types';
 import { addPersonalLogin } from '../redux/actions/index';
 
 const MIN_LENGTH_PASSWORD = 6;
@@ -78,10 +78,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
+  dispatch: string,
+}.isRequired;
 
 export default connect()(Login);

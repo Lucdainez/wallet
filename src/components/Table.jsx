@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string } from 'prop-types';
+import { removeElementToTable } from '../redux/actions';
 
 class Table extends Component {
+  removingTableElement = ({ target }) => {
+    const { id } = target;
+    const { dispatch } = this.props;
+    dispatch(removeElementToTable(id));
+  };
+
   render() {
     const { expenses } = this.props;
     return (
@@ -47,12 +54,19 @@ class Table extends Component {
                   }
                 </td>
                 <td>Real</td>
-                <button type="button">
-                  Editar
-                </button>
-                <button type="button">
-                  Excluir
-                </button>
+                <td>
+                  <button type="button">
+                    Editar
+                  </button>
+                  <button
+                    type="button"
+                    data-testid="delete-btn"
+                    id={ dataExpense.id }
+                    onClick={ this.removingTableElement }
+                  >
+                    Excluir
+                  </button>
+                </td>
               </tr>
             ))
           }

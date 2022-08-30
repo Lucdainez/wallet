@@ -4,7 +4,6 @@ import { string } from 'prop-types';
 import {
   fetchApiCoinsAction,
   addDataInputs,
-  addSumValue,
 } from '../redux/actions/index';
 
 const ENDPOINT = 'https://economia.awesomeapi.com.br/json/all';
@@ -31,12 +30,9 @@ class WalletForm extends Component {
 
   dispatchActionClick = async () => {
     const { dispatch } = this.props;
-    const { value, currency } = this.state;
     const response = await fetch(ENDPOINT);
     const json = await response.json();
     delete json.USDT;
-    const ask = Object.values(json).filter((coin) => coin.code === currency);
-    dispatch(addSumValue([(Number(value) * Number(ask[0].ask)).toFixed(2)]));
     this.setState({ exchangeRates: json }, () => {
       dispatch(addDataInputs(this.state));
       this.setState({

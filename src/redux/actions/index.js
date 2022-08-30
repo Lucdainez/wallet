@@ -2,7 +2,7 @@ export const saveEmailLogin = 'SAVE_EMAIL_lOGIN';
 export const REQUISITION_TO_API = 'REQUISITION_TO_API';
 export const SAVE_DATA_INPUTS = 'SAVE_DATA_INPUTS';
 export const ADD_EXCHANGE_RATES = 'ADD_EXCHANGE_RATES';
-export const ADD_SUM_VALUE = 'ADD_SUM_VALUE';
+export const REMOVE_ID_TO_EXPANSES = 'REMOVE_ID_TO_EXPANSES';
 const ENDPOINT = 'https://economia.awesomeapi.com.br/json/all';
 
 export function addPersonalLogin(payload) {
@@ -26,9 +26,9 @@ export function addDataInputs(payload) {
   };
 }
 
-export function addSumValue(payload) {
+export function removeElementToTable(payload) {
   return {
-    type: ADD_SUM_VALUE,
+    type: REMOVE_ID_TO_EXPANSES,
     payload,
   };
 }

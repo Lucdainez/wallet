@@ -1,7 +1,7 @@
 import {
   REQUISITION_TO_API,
   SAVE_DATA_INPUTS,
-  ADD_SUM_VALUE,
+  REMOVE_ID_TO_EXPANSES,
 } from '../actions/index';
 
 const INITIAL_STATE = {
@@ -10,7 +10,6 @@ const INITIAL_STATE = {
   editor: false,
   idToEdit: 0,
   id: 0,
-  expensesValue: [],
 };
 
 function walletReducer(state = INITIAL_STATE, action) {
@@ -28,10 +27,10 @@ function walletReducer(state = INITIAL_STATE, action) {
       expenses: [...state.expenses, { id: state.id, ...action.payload }],
       id: state.id + 1,
     };
-  case ADD_SUM_VALUE:
+  case REMOVE_ID_TO_EXPANSES:
     return {
       ...state,
-      expensesValue: [...state.expensesValue, ...action.payload],
+      expenses: [...state.expenses.filter((key) => key.id !== Number(action.payload))],
     };
   default: return state;
   }

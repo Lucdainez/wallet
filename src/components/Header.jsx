@@ -4,15 +4,19 @@ import { string } from 'prop-types';
 
 class Header extends Component {
   render() {
-    const { email, value } = this.props;
-    const SUM_VALUE = value.reduce((acc, curr) => acc + Number(curr), 0);
+    const { email, values } = this.props;
+    const SUM_VALUE = values.reduce((acc, curr) => {
+      const { value, currency, exchangeRates } = curr;
+      const exchange = exchangeRates[currency].ask;
+      return acc + (value * exchange);
+    }, 0);
     return (
       <section>
         <p data-testid="email-field">{email}</p>
         <p
           data-testid="total-field"
         >
-          { SUM_VALUE }
+          { SUM_VALUE.toFixed(2) }
         </p>
         <p data-testid="header-currency-field">BRL</p>
       </section>
@@ -26,7 +30,7 @@ Header.propTypes = {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
-  value: state.wallet.expensesValue,
+  values: state.wallet.expenses,
 });
 
 export default connect(mapStateToProps)(Header);
