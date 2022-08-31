@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string } from 'prop-types';
-import { removeElementToTable } from '../redux/actions';
+import { removeElementToTable, editElementToTable } from '../redux/actions';
 
 class Table extends Component {
   removingTableElement = ({ target }) => {
     const { id } = target;
     const { dispatch } = this.props;
     dispatch(removeElementToTable(id));
+  };
+
+  editingTableElement = ({ target }) => {
+    const { id } = target;
+    const { dispatch } = this.props;
+    dispatch(editElementToTable(id));
   };
 
   render() {
@@ -55,7 +61,12 @@ class Table extends Component {
                 </td>
                 <td>Real</td>
                 <td>
-                  <button type="button">
+                  <button
+                    type="button"
+                    data-testid="edit-btn"
+                    id={ dataExpense.id }
+                    onClick={ this.editingTableElement }
+                  >
                     Editar
                   </button>
                   <button
