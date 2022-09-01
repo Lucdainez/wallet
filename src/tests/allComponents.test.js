@@ -107,6 +107,7 @@ describe('teste dos componentes', () => {
       });
 
       const { history, store } = renderWithRouterAndRedux(<App />);
+
       const inputEmail = screen.getByLabelText(/email/i);
       const inputPassword = screen.getByLabelText(/senha/i);
       const button = screen.getByRole('button', { name: /entrar/i });
