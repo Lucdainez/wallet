@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { string } from 'prop-types';
 import { addPersonalLogin } from '../redux/actions/index';
+import '../cssToComponents/Login.css';
 
 const MIN_LENGTH_PASSWORD = 6;
 
@@ -35,9 +36,9 @@ class Login extends React.Component {
   render() {
     const { email, password, enableButton } = this.state;
     return (
-      <section>
+      <section className="section-login">
         <h2>TrybeWallet</h2>
-        <form>
+        <form className="form-login">
           <label htmlFor="email">
             Email:
             {' '}
@@ -64,6 +65,7 @@ class Login extends React.Component {
           </label>
           <button
             type="button"
+            className="button-login"
             disabled={ enableButton }
             onClick={
               this.changePageAndSaveEmailInGlobalStateWithClick

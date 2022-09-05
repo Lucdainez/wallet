@@ -1,0 +1,38 @@
+.form-WalletFormEdit {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  background-color: rgba(253, 207, 0, 0.811);
+  height: 50px;
+  font-family: monospace;
+  font-size: larger;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.input-WalletFormEdit {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid blue;
+}
+
+.select-WalletFormEdit {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid blue;
+}
+
+.button-WalletFormEdit {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid blue;
+}
+
+.button-WalletFormEdit:hover {
+  padding: 7px;
+  font-size: 14px;
+  background-color: rgba(254, 246, 4, 0.905);
+}

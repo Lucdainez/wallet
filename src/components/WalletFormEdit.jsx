@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string } from 'prop-types';
 import { addEditElementToTable } from '../redux/actions/index';
+import '../cssToComponents/WalletFormEdit.css';
 
 const ENDPOINT = 'https://economia.awesomeapi.com.br/json/all';
 
@@ -50,13 +51,13 @@ class WalletFormEdit extends Component {
       tag,
     } = this.state;
     return (
-      <form>
+      <form className="form-WalletFormEdit">
         <label htmlFor="value">
-          valor da despesa:
-          {' '}
           <input
             type="number"
             name="value"
+            placeholder="valor da despesa"
+            className="input-WalletFormEdit"
             value={ value }
             data-testid="value-input"
             onChange={ this.handleChange }
@@ -64,11 +65,11 @@ class WalletFormEdit extends Component {
         </label>
 
         <label htmlFor="description">
-          descrição:
-          {' '}
           <input
             type="text"
             name="description"
+            placeholder="descrição"
+            className="input-WalletFormEdit"
             value={ description }
             data-testid="description-input"
             onChange={ this.handleChange }
@@ -80,6 +81,7 @@ class WalletFormEdit extends Component {
           {' '}
           <select
             name="currency"
+            className="select-WalletFormEdit"
             value={ currency }
             data-testid="currency-input"
             onChange={ this.handleChange }
@@ -102,6 +104,7 @@ class WalletFormEdit extends Component {
           {' '}
           <select
             name="method"
+            className="select-WalletFormEdit"
             value={ method }
             data-testid="method-input"
             onChange={ this.handleChange }
@@ -117,6 +120,7 @@ class WalletFormEdit extends Component {
           {' '}
           <select
             name="tag"
+            className="select-WalletFormEdit"
             value={ tag }
             data-testid="tag-input"
             onChange={ this.handleChange }
@@ -131,6 +135,7 @@ class WalletFormEdit extends Component {
 
         <button
           type="button"
+          className="button-WalletFormEdit"
           onClick={ this.dispatchActionClick }
         >
           Editar despesa

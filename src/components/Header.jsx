@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string } from 'prop-types';
+import '../cssToComponents/Header.css';
 
 class Header extends Component {
   render() {
@@ -11,12 +12,14 @@ class Header extends Component {
       return acc + (value * ask);
     }, 0);
     return (
-      <section>
+      <section className="section-header">
         <p data-testid="email-field">{email}</p>
         <p
           data-testid="total-field"
         >
-          { SUM_VALUE.toFixed(2) }
+          Valor da despesa total: R$
+          {' '}
+          {SUM_VALUE.toFixed(2)}
         </p>
         <p data-testid="header-currency-field">BRL</p>
       </section>

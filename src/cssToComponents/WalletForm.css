@@ -1,0 +1,38 @@
+.form-WalletForm {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  background-color: rgba(90, 90, 241, 0.807);
+  height: 50px;
+  font-family: monospace;
+  font-size: larger;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.input-WalletForm {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid blue;
+}
+
+.select-WalletForm {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid blue;
+}
+
+.button-WalletForm {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid blue;
+}
+
+.button-WalletForm:hover {
+  padding: 7px;
+  font-size: 14px;
+  background-color: rgba(0, 72, 255, 0.66);
+}

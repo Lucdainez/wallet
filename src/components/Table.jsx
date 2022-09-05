@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { string } from 'prop-types';
 import { removeElementToTable, editElementToTable } from '../redux/actions';
+import '../cssToComponents/Table.css';
 
 class Table extends Component {
   removingTableElement = ({ target }) => {
@@ -19,39 +20,37 @@ class Table extends Component {
   render() {
     const { expenses } = this.props;
     return (
-      <table>
-        <thead>
-          <tr>
-            <th>Descrição</th>
-            <th>Tag</th>
-            <th>Método de pagamento</th>
-            <th>Valor</th>
-            <th>Moeda</th>
-            <th>Câmbio utilizado</th>
-            <th>Valor convertido</th>
-            <th>Moeda de conversão</th>
-            <th>Editar/Excluir</th>
+      <table className="table-table">
+        <thead className="thead-table">
+          <tr className="tr-table">
+            <th className="th-table">Descrição</th>
+            <th className="th-table">Tag</th>
+            <th className="th-table">Método de pagamento</th>
+            <th className="th-table">Valor</th>
+            <th className="th-table">Moeda de conversão</th>
+            <th className="th-table">Câmbio utilizado</th>
+            <th className="th-table">Valor convertido</th>
+            <th className="th-table">Moeda</th>
+            <th className="th-table">Editar/Excluir</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="tbody-table">
           {
             expenses.map((dataExpense) => (
-              <tr key={ dataExpense.id }>
-                <td>{dataExpense.description}</td>
-                <td>{dataExpense.tag}</td>
-                <td>{dataExpense.method}</td>
-                <td>{Number(dataExpense.value).toFixed(2)}</td>
-                <td>
-                  {
-                    dataExpense.exchangeRates[dataExpense.currency].name
-                  }
-                </td>
-                <td>
+              <tr className="tr-tbody-table" key={ dataExpense.id }>
+                <td className="td-table description">{dataExpense.description}</td>
+                <td className="td-table">{dataExpense.tag}</td>
+                <td className="td-table">{dataExpense.method}</td>
+                <td className="td-table">{Number(dataExpense.value).toFixed(2)}</td>
+                <td className="td-table">Real</td>
+                <td className="td-table">
                   {
                     Number(dataExpense.exchangeRates[dataExpense.currency].ask).toFixed(2)
                   }
                 </td>
-                <td>
+                <td className="td-table">
+                  R$
+                  {' '}
                   {
                     Number(
                       dataExpense.value
@@ -59,11 +58,17 @@ class Table extends Component {
                     ).toFixed(2)
                   }
                 </td>
-                <td>Real</td>
-                <td>
+                <td className="td-table">
+                  {
+                    (dataExpense.exchangeRates[dataExpense.currency].name)
+                      .split('/Real Brasileiro')
+                  }
+                </td>
+                <td className="td-table">
                   <button
                     type="button"
                     data-testid="edit-btn"
+                    className="button-edit-table"
                     id={ dataExpense.id }
                     onClick={ this.editingTableElement }
                   >
@@ -72,6 +77,7 @@ class Table extends Component {
                   <button
                     type="button"
                     data-testid="delete-btn"
+                    className="button-dell-table"
                     id={ dataExpense.id }
                     onClick={ this.removingTableElement }
                   >
